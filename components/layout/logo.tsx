@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -10,13 +11,19 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
+/**
+ * The brand wordmark (/public/brand/volt-logo.png, a transparent cutout of volt-wordmark.png).
+ * Lime on dark; rendered in ink on the light theme, where lime would lack contrast.
+ */
 export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-2", className)} dir="ltr">
-      <LogoMark className="h-[0.95em] w-auto text-lime [[data-theme=light]_&]:text-fg" />
-      <span className="font-wide text-[1.35em] font-extrabold leading-none tracking-[-0.02em]">
-        {siteConfig.name}
-      </span>
-    </span>
+    <Image
+      src={siteConfig.logo.wordmark}
+      alt={siteConfig.name}
+      width={480}
+      height={109}
+      priority
+      className={cn("h-6 w-auto [[data-theme=light]_&]:brightness-0", className)}
+    />
   );
 }

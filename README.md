@@ -2,6 +2,8 @@
 
 A portfolio-grade storefront for premium tech and lifestyle accessories: audio, watches, bags, desk gear and sneakers. Built with Next.js 16, Tailwind CSS 4 and Framer Motion, in English and Arabic (full RTL).
 
+**Live:** https://volt-shop.mahmoudghunaim132.workers.dev
+
 > **Demo notice:** this is a portfolio project. No real products are sold and no payments are taken. Any card number works at checkout, and nothing leaves your browser.
 
 ![VOLT home page](docs/screenshots/home.png)
@@ -24,7 +26,19 @@ npm run lint       # ESLint
 npm run typecheck  # TypeScript, strict
 ```
 
-Deploys to Vercel with zero configuration. Optionally set `NEXT_PUBLIC_SITE_URL` to your domain so the sitemap and Open Graph URLs are absolute.
+## Deploy (Cloudflare Workers)
+
+The live site runs on Cloudflare Workers through [vinext](https://github.com/cloudflare/vinext), Cloudflare's Vite-based Next.js runtime. The standard Next.js scripts above keep working side by side.
+
+```bash
+npm run dev:vinext     # vinext dev server (port 3218)
+npm run build:vinext   # build the Worker
+npm run deploy:vinext  # build + deploy (needs `cf auth login` once)
+```
+
+vinext's config loader needs **Node.js 22.18 or newer**. On an older Node, run any of these through a newer one, for example `npx -y node@24 node_modules/@vinext/cloudflare/dist/cli.js deploy`.
+
+The Worker config lives in `cloudflare.config.ts`. It's set up with no extra Cloudflare resources (no KV, no Cloudflare Images), so it runs on the free plan. Set `NEXT_PUBLIC_SITE_URL` if you move to a custom domain, so the sitemap and Open Graph URLs stay absolute.
 
 ## Features
 
@@ -58,6 +72,7 @@ Deploys to Vercel with zero configuration. Optionally set `NEXT_PUBLIC_SITE_URL`
 | UI primitives | Radix UI (Dialog, Tabs, Slider, Accordion), sonner, lucide-react |
 | Forms | react-hook-form + zod |
 | Data | [DummyJSON](https://dummyjson.com/products) with a local snapshot fallback |
+| Hosting | Cloudflare Workers via vinext |
 
 ## Project structure
 

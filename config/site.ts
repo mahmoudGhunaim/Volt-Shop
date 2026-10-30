@@ -10,12 +10,12 @@ export const siteConfig = {
   },
   description:
     "VOLT is a demo store for premium tech and lifestyle accessories: headphones, watches, bags, desk setup and sneakers.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://volt-shop.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://volt-shop.mahmoudghunaim132.workers.dev",
   portfolioUrl: "https://mahmoud-ghunaim.pages.dev",
   author: "Mahmoud Ghunaim",
   logo: {
     icon: "/brand/volt-icon.png",
-    wordmark: "/brand/volt-wordmark.png",
+    wordmark: "/brand/volt-logo.png",
   },
   currency: "USD",
   freeShippingThreshold: 150,

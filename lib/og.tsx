@@ -1,6 +1,5 @@
 import "server-only";
 import { ImageResponse } from "next/og";
-import sharp from "sharp";
 import { siteConfig } from "@/config/site";
 
 export const ogSize = { width: 1200, height: 630 };
@@ -26,12 +25,16 @@ async function loadFont(spec: string, text: string) {
   }
 }
 
-/** Satori can't decode WebP, so remote product cutouts are converted to PNG data URLs. */
-async function toPngDataUrl(src: string) {
+/**
+ * Satori can't decode WebP, and native image libraries don't run on Workers,
+ * so product cutouts are converted to PNG by the wsrv.nl image proxy.
+ * Returns null if the proxy is unreachable; the card then renders without the product.
+ */
+async function toPngUrl(src: string) {
+  const url = `https://wsrv.nl/?url=${encodeURIComponent(src)}&w=560&h=560&fit=inside&output=png`;
   try {
-    const buf = Buffer.from(await (await fetch(src)).arrayBuffer());
-    const png = await sharp(buf).resize(560, 560, { fit: "inside" }).png().toBuffer();
-    return `data:image/png;base64,${png.toString("base64")}`;
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok ? url : null;
   } catch {
     return null;
   }
@@ -60,7 +63,7 @@ export async function renderOg({
   const [font, body, png] = await Promise.all([
     loadFont("Archivo:wdth,wght@125,800", `${siteConfig.name}${title}${price ?? ""}`),
     loadFont("Geist:wght@500", `${subtitle}${footer}`),
-    image ? toPngDataUrl(image) : Promise.resolve(null),
+    image ? toPngUrl(image) : Promise.resolve(null),
   ]);
 
   // Body font first: it is the default for any text without an explicit fontFamily.

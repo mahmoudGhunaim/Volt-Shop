@@ -1,11 +1,10 @@
 import "server-only";
-import { existsSync } from "node:fs";
-import path from "node:path";
 import { cache } from "react";
 import { categories as rawCategories } from "@/data/categories";
 import { catalog, type ProductEnrichment } from "@/data/products";
 import { testimonials } from "@/data/testimonials";
 import snapshot from "@/data/dummyjson-snapshot.json";
+import localImages from "@/data/local-images.json";
 import type { Category, CategorySlug, Product, Testimonial } from "@/types/product";
 
 /**
@@ -139,7 +138,8 @@ export async function getRelatedProducts(product: Product, limit = 4): Promise<P
   return [...sameCategory, ...others].slice(0, limit);
 }
 
-const hasPublicFile = (publicPath: string) => existsSync(path.join(process.cwd(), "public", publicPath));
+/** Optional generated art, listed at build time by scripts/scan-public-images.mjs. */
+const hasPublicFile = (publicPath: string) => (localImages as string[]).includes(publicPath);
 
 export async function getCategories(): Promise<Category[]> {
   const all = await loadCatalog();

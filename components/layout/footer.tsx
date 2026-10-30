@@ -3,7 +3,6 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { format } from "@/i18n";
 import { getDictionary } from "@/i18n/server";
-import { LogoMark } from "./logo";
 
 export async function Footer() {
   const { t } = await getDictionary();
@@ -75,17 +74,7 @@ export async function Footer() {
         ))}
       </div>
 
-      {/* Oversized wordmark: the footer's single loud moment. */}
-      <div className="container-volt" aria-hidden>
-        <div className="flex items-end gap-[2vw] border-t border-border pt-6" dir="ltr">
-          <LogoMark className="w-[16vw] max-w-56 text-lime [[data-theme=light]_&]:text-fg" />
-          <span className="font-wide text-[clamp(4rem,19vw,17rem)] font-extrabold leading-[0.78] tracking-[-0.04em]">
-            {siteConfig.name}
-          </span>
-        </div>
-      </div>
-
-      <div className="container-volt flex flex-col gap-2 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+      <div className="container-volt flex flex-col gap-2 border-t border-border py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
         <p>{format(t.footer.rights, { year: new Date().getFullYear(), name: siteConfig.name })}</p>
         <p>Next.js · Tailwind · Framer Motion · DummyJSON</p>
       </div>
