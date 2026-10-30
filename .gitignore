@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+build
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+.vercel
+.DS_Store
+npm-debug.log*
+
+# local tool caches
+.impeccable/
+.open-next
+.wrangler
+.dev.vars

@@ -1,0 +1,306 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ─────────────────────────────────────────────────────────────
+   VOLT design tokens
+   Color in OKLCH. Hex comments are the brand-spec values.
+   ───────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: oklch(0.153 0.015 284.5); /* #0B0B12 ink */
+  --surface: oklch(0.201 0.02 284.5); /* #15151F */
+  --surface-2: oklch(0.232 0.023 284.5); /* #1C1C28 raised */
+  --border: oklch(0.274 0.024 284.7); /* #262633 */
+  --fg: oklch(0.967 0.005 95.1); /* #F5F4F0 */
+  --muted: oklch(0.693 0.029 285.6); /* #9A9AAE  7.1:1 on bg */
+  --lime: oklch(0.928 0.216 125.2); /* #C6FF3D */
+  --violet: oklch(0.599 0.23 286.2); /* #7C5CFF */
+  --violet-text: oklch(0.693 0.174 290.1); /* #9D85FF 6.8:1 on bg */
+  --danger: oklch(0.697 0.198 12.9); /* #FF5C7A */
+  --focus: var(--lime);
+  --on-lime: oklch(0.153 0.015 284.5);
+  --glow-violet: oklch(0.599 0.23 286.2 / 0.35);
+  --glow-lime: oklch(0.928 0.216 125.2 / 0.22);
+  --shadow-color: 0 0% 0%;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: oklch(0.967 0.005 95.1); /* #F5F4F0 */
+  --surface: oklch(1 0 0); /* #FFFFFF */
+  --surface-2: oklch(0.945 0.006 95); /* pressed / hover fill */
+  --border: oklch(0.913 0.008 91.5); /* #E4E2DC */
+  --fg: oklch(0.153 0.015 284.5); /* #0B0B12 */
+  --muted: oklch(0.533 0.025 285.5); /* #6B6B7B 4.75:1 on bg */
+  --lime: oklch(0.834 0.215 126.9); /* #A3E000, fill only, never text */
+  --violet: oklch(0.599 0.23 286.2);
+  --violet-text: oklch(0.505 0.229 282.4); /* #5B3FE0 5.9:1 on bg */
+  --danger: oklch(0.55 0.21 16); /* 5:1 on bg */
+  --focus: var(--violet-text);
+  --on-lime: oklch(0.153 0.015 284.5);
+  --glow-violet: oklch(0.599 0.23 286.2 / 0.18);
+  --glow-lime: oklch(0.834 0.215 126.9 / 0.22);
+  --shadow-color: 250 20% 20%;
+}
+
+:root {
+  /* Product plates stay ink in both themes so the catalog reads as one collection. */
+  --plate: oklch(0.201 0.02 284.5);
+  --plate-hi: oklch(0.27 0.035 286);
+
+  /* Fonts: set per locale. next/font injects the --font-* family variables. */
+  --ff-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --ff-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+
+  /* Layering scale */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-header: 30;
+  --z-overlay: 40;
+  --z-drawer: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+  --z-tooltip: 80;
+
+  --header-h: 4rem;
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+}
+
+:root[lang="ar"] {
+  --ff-display: var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+  --ff-sans: var(--font-plex-arabic), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-lime: var(--lime);
+  --color-on-lime: var(--on-lime);
+  --color-violet: var(--violet);
+  --color-violet-text: var(--violet-text);
+  --color-danger: var(--danger);
+  --color-plate: var(--plate);
+  --color-plate-hi: var(--plate-hi);
+
+  --font-display: var(--ff-display);
+  --font-sans: var(--ff-sans);
+  --font-dot: var(--font-doto), ui-monospace, monospace;
+}
+
+@theme {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Fluid type scale, ratio ~1.33 */
+  --text-display: clamp(2.75rem, 1.2rem + 6.4vw, 6rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.4rem + 3.4vw, 4rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  --text-h2--line-height: 1.02;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.015em;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-shimmer: shimmer 1.6s var(--ease-quart) infinite;
+  --animate-nudge: nudge 2.2s var(--ease-expo) infinite;
+  --animate-accordion-down: accordion-down 320ms var(--ease-expo);
+  --animate-accordion-up: accordion-up 240ms var(--ease-expo);
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    45% { transform: translateY(5px); opacity: 0.55; }
+  }
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes shimmer {
+    from { background-position: 150% 0; }
+    to { background-position: -50% 0; }
+  }
+}
+
+/* ─── Base ─────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--ff-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100dvh;
+  }
+
+  [data-theme="dark"] body {
+    /* Light text on dark reads thinner: a touch more leading. */
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--ff-display);
+    font-weight: 800;
+    font-stretch: 125%;
+    text-wrap: balance;
+  }
+
+  :root[lang="ar"] :is(h1, h2, h3) {
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.25;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--lime);
+    color: var(--on-lime);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  /* Directional icons follow reading direction. */
+  [dir="rtl"] .flip-rtl {
+    transform: scaleX(-1);
+  }
+}
+
+/* ─── Utilities ────────────────────────────────────────────── */
+
+@utility font-wide {
+  font-family: var(--ff-display);
+  font-stretch: 125%;
+}
+
+@utility container-volt {
+  width: 100%;
+  max-width: 96rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Subtle violet → lime mesh used behind hero and section breaks. */
+@utility mesh {
+  background-image:
+    radial-gradient(60% 50% at 85% 10%, var(--glow-violet), transparent 70%),
+    radial-gradient(45% 40% at 10% 90%, var(--glow-lime), transparent 70%);
+}
+
+@utility mesh-soft {
+  background-image:
+    radial-gradient(50% 60% at 100% 0%, var(--glow-violet), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, oklch(0.928 0.216 125.2 / 0.08), transparent 70%);
+}
+
+/* Ink plate with a soft top light, the stage for every product cutout. */
+@utility plate {
+  background-color: var(--plate);
+  background-image: radial-gradient(90% 70% at 50% 18%, var(--plate-hi), transparent 72%);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--surface) 30%,
+    var(--surface-2) 50%,
+    var(--surface) 70%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Grain overlay for depth on large flat areas. */
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ─── Reduced motion ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
